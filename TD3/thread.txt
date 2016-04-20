@@ -1,0 +1,28 @@
+package sde_td3;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.util.ArrayList;
+
+public class thread extends Thread {
+    private static ArrayList<String> mme = new ArrayList<>();
+    
+    public thread(ArrayList<String> madames, String str){
+        super(str);
+        thread.mme =  mme;
+    }
+    
+    @Override
+    public void run(){
+        String name;
+        try(BufferedWriter bw =  new BufferedWriter(new FileWriter("E:\\Bonjour.txt"))){
+            while((name = thread.mme.get(thread.mme.size()-1)) != null){
+                bw.append(name + "\n");
+                thread.mme.remove(thread.mme.size()-1);
+            }
+            bw.close();
+        } catch(Exception exc) {
+            System.out.println(exc.getMessage());
+        }
+    }
+}
