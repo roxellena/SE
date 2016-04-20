@@ -1,0 +1,46 @@
+package sde_td3;
+
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.*;
+
+public class Scheduler extends Thread {
+    private static final Logger log = Logger.getLogger(TD3.class.getName());
+    
+    private Queue q;
+    private int x;
+    private Thread current;
+    public Scheduler() {
+        this.setPriority(6);
+        log.log(Level.INFO, " ", this.getName());
+        x = 1000;
+        q = new LinkedList();
+    }
+    public Scheduler(int e) {
+        x = e;
+        q = new LinkedList();
+    }
+    public void addThread(Thread t){
+        q.offer(t);
+        log.log(Level.INFO, " ", t.getName());
+    }
+    public void executeThread(){
+        try{
+            log.log(Level.INFO, " ", current.getName());
+            Thread.sleep(x);
+        }
+        catch(InterruptedException e){};
+    }
+    public void run(){
+        while(true){
+            current = (Thread)q.poll();
+            if(current!=null){
+                log.log(Level.INFO, " ", current.getName());
+                executeThread();
+            }
+            else{
+                if(q.isEmpty()){
+                    log.log(Level.INFO, "Queue vide...");
+                    break;
+                } } } } }
