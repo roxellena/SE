@@ -1,0 +1,37 @@
+package sde_td3;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+public class TD3 {
+    private static final Logger log = Logger.getLogger(TD3.class.getName());
+
+    public static void main(String[] args) {
+        String line;
+        String[] parts;
+        ArrayList<String> mme = new ArrayList<>();
+        try(BufferedReader br = new BufferedReader(new FileReader("E:\\ListePersonnes.txt"))){
+            while((line = br.readLine()) != null){
+                parts = line.split(" ");
+                if(parts[0].equals("Mme.")){
+                    mme.add(line);
+                }
+            }
+        }catch(IOException e){
+            log.log(Level.SEVERE, e.toString(), e);
+        }
+        
+        Thread.currentThread().setPriority(Thread.MAX_PRIORITY);
+        Scheduler CPUScheduler = new Scheduler();
+        CPUScheduler.start();
+        thread t1 = new thread(mme, "Thread 1");
+        t1.start();
+        CPUScheduler.addThread(t1);
+        thread t2 = new thread(mme, "Thread 2");
+        t2.start();
+        CPUScheduler.addThread(t2);
+    }
+}
